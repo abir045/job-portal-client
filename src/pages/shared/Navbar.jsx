@@ -4,10 +4,10 @@ import AuthContext from "../../context/AuthContext/AuthContext";
 import logo from "../../assets/logo-small.png";
 
 const Navbar = () => {
-  const { user, singOutUser } = useContext(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
 
   const handleSignOut = () => {
-    singOutUser()
+    signOutUser()
       .then(() => {
         console.log("successfully signed out");
       })

@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyApplications = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [jobs, setJobs] = useState([]);
 
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    fetch(`http://localhost:5000/job-applications?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setJobs(data));
-  }, [user.email]);
+    // fetch(`https://job-portal-server-dusky.vercel.app/job-applications?email=${user.email}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setJobs(data));
+    // axios
+    //   .get(`https://job-portal-server-dusky.vercel.app/job-applications?email=${user.email}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => setJobs(res.data));
+
+    if (user && user?.email && !loading) {
+      axiosSecure
+        .get(`/job-applications?email=${user?.email}`)
+        .then((res) => setJobs(res.data));
+    }
+  }, [user?.email, axiosSecure, loading, user]);
 
   return (
     <div>
